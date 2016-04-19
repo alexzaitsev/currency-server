@@ -50,7 +50,7 @@ Parse.Cloud.define("removeOldAdverts", function(request, response) {
 	});
 });
 
-Parse.Cloud.define("currencyJob", function(request, response) {
+Parse.Cloud.define("currencyServerJob", function(request, response) {
 	Parse.Cloud.run("removeOldAdverts")
 		.then(function() {
 				var AdvertClass = Parse.Object.extend("Advert");
