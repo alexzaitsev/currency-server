@@ -50,7 +50,7 @@ Parse.Cloud.define("removeOldAdverts", function(request, response) {
 	});
 });
 
-Parse.Cloud.job("currencyJob", function(request, status) {
+Parse.Cloud.define("removeOldAdverts", function(request, response) {
 	Parse.Cloud.run("removeOldAdverts")
 		.then(function() {
 				var AdvertClass = Parse.Object.extend("Advert");
@@ -118,7 +118,7 @@ Parse.Cloud.job("currencyJob", function(request, status) {
 						}
 					},
 					error: function(httpResponse) {
-						status.error("http error " + httpResponse.status);
+						response.error("http error " + httpResponse.status);
 					}
 				}).then( function() {
 					if (adverts.length > 0) {
@@ -127,26 +127,26 @@ Parse.Cloud.job("currencyJob", function(request, status) {
 									Parse.Object.saveAll(adverts,
 									{
 										success: function() {
-											status.success('job success');
+											response.success('job success');
 										},
 										error: function(error) {
-											status.error('save all error' + error.toString());
+											response.error('save all error' + error.toString());
 										}
 									});
 								}, 
 								function(error) {
-									status.error('deleteSourced error' + error.toString());
+									response.error('deleteSourced error' + error.toString());
 								}
 							);
 					} else {
-						status.success('job success, nothing changed');
+						response.success('job success, nothing changed');
 					}
 				}, function(error) {
-					status.error("http request error " + error.toString());
+					response.error("http request error " + error.toString());
 				});
 			}, 
 			function(error) {
-				status.error("removeOldAdverts error " + error.toString());
+				response.error("removeOldAdverts error " + error.toString());
 			}
 		);
 });
